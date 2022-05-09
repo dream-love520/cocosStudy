@@ -93,7 +93,7 @@ CCProgram fs %{
 
     ALPHA_TEST(o);
 
-    if (value < dissolveThreshold + 0.05) {
+    if (value < dissolveThreshold + 0.03) {
       o = vec4(0.9, 0.6, 0.3, o.a); // 溶解的边缘设置一个边缘过度色
     }
 
