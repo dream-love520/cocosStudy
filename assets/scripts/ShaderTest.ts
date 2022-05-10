@@ -9,10 +9,6 @@ export class ShaderTest extends cc.Component {
     private isEffect: boolean = false;
     private dissolveThreshold: number = 0;
 
-    onLoad() {
-        cc.dynamicAtlasManager.enabled = false;
-    }
-
     onBtnShader() {
         this.isEffect = true;
         this.dissolveThreshold = 0;

@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "TextureOutlineShader",
+    "_name": "ColorChangeShader",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -182,7 +182,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "73f8e3e3-133b-4b9a-a6e3-845768855421"
+      "__uuid__": "13b5ddad-2e0b-47c1-94ce-657ee48a11ca"
     },
     "fileId": "46CK24SRdIAbztxqwX0GED",
     "sync": false
@@ -261,7 +261,7 @@
     "_enabled": true,
     "_materials": [
       {
-        "__uuid__": "cc00c1a2-1f1b-4d73-94b1-94707b35436b"
+        "__uuid__": "14f03cde-d456-4cb9-b1c9-a7b094c0cc46"
       }
     ],
     "_srcBlendFactor": 770,
@@ -289,7 +289,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "73f8e3e3-133b-4b9a-a6e3-845768855421"
+      "__uuid__": "13b5ddad-2e0b-47c1-94ce-657ee48a11ca"
     },
     "fileId": "5cMGoyDRpKsKjuwYPwPcEx",
     "sync": false
@@ -327,7 +327,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "73f8e3e3-133b-4b9a-a6e3-845768855421"
+      "__uuid__": "13b5ddad-2e0b-47c1-94ce-657ee48a11ca"
     },
     "fileId": "",
     "sync": false
