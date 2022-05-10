@@ -14,6 +14,17 @@ CCEffect %{
       properties:
         texture: { value: white }
         alphaThreshold: { value: 0.5 }
+    - name: big
+      vert: big-vs:vert
+      frag: big-fs:frag
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        alphaThreshold: { value: 0.5 }
 }%
 
 
@@ -43,7 +54,7 @@ CCProgram small-vs %{
 
     v_color = a_color;
 
-    pos.xyz*=1.2;
+    pos.xyz *= 1.5;
 
     return pos;
   }
@@ -51,6 +62,65 @@ CCProgram small-vs %{
 
 
 CCProgram small-fs %{
+  precision highp float;
+
+  #include <alpha-test>
+  #include <texture>
+
+  in vec4 v_color;
+
+  in vec2 v_uv0;
+  uniform sampler2D texture;
+
+  vec4 frag () {
+    vec4 o = vec4(1, 1, 1, 1);
+
+    CCTexture(texture, v_uv0, o);
+
+    o *= v_color;
+
+    ALPHA_TEST(o);
+
+    #if USE_BGRA
+      return o.bgra;
+    #else
+      return o.rgba;
+    #endif
+  }
+}%
+
+CCProgram big-vs %{
+  precision highp float;
+
+  #include <cc-global>
+  #include <cc-local>
+
+  in vec3 a_position;
+  in vec4 a_color;
+  out vec4 v_color;
+
+  in vec2 a_uv0;
+  out vec2 v_uv0;
+
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1);
+
+    #if CC_USE_MODEL
+    pos = cc_matViewProj * cc_matWorld * pos;
+    #else
+    pos = cc_matViewProj * pos;
+    #endif
+
+    v_uv0 = a_uv0;
+
+    v_color = a_color;
+
+    return pos;
+  }
+}%
+
+
+CCProgram big-fs %{
   precision highp float;
 
   #include <alpha-test>
