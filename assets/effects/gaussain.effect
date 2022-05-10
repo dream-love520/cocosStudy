@@ -1,0 +1,75 @@
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        size: { value: [500.0, 500.0], editor: { tooltip: '节点尺寸' } }
+}%
+
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+
+  in vec3 a_position;
+  in vec2 a_uv0;
+  in vec4 a_color;
+ 
+  out vec2 v_uv0;
+  out vec4 v_color;
+ 
+  void main () {
+    gl_Position = cc_matViewProj * vec4(a_position, 1);
+    v_uv0 = a_uv0;
+    v_color = a_color;
+  }
+}%
+
+
+CCProgram fs %{
+  precision highp float;
+
+  in vec2 v_uv0;
+  in vec4 v_color;
+
+  uniform sampler2D texture;
+
+  uniform Properties {
+    vec2 size;
+  };
+  
+  // 模糊半径
+  // for 循环的次数必须为常量
+  const float RADIUS = 8.0;
+
+  // 获取模糊颜色
+  vec4 getBlurColor (vec2 pos) {
+    vec4 color = vec4(0); // 初始颜色
+    float sum = 0.0; // 总权重
+    // 卷积过程
+    for (float r = -RADIUS; r <= RADIUS; r++) { // 水平方向
+      for (float c = -RADIUS; c <= RADIUS; c++) { // 垂直方向
+        vec2 target = pos + vec2(r / size.x, c / size.y); // 目标像素位置
+        float weight = (RADIUS - abs(r)) * (RADIUS - abs(c)); // 计算权重
+        color += texture(texture, target) * weight; // 累加颜色
+        sum += weight; // 累加权重
+      }
+    }
+    color /= sum; // 求出平均值
+    return color;
+  }
+ 
+  void main () {
+    vec4 color = getBlurColor(v_uv0); // 获取模糊后的颜色
+    vec4 originalColor = texture(texture, v_uv0);
+    //color.a = originalColor.a; // 还原透明度
+    gl_FragColor = color;
+  }
+}%

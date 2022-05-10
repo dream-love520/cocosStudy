@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.Material",
+  "_name": "gaussain",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "bd0fa5e4-69f5-4388-815b-fe596f7cd111"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {},
+      "props": {
+        "size": {
+          "__type__": "cc.Vec2",
+          "x": 214,
+          "y": 165
+        }
+      }
+    }
+  }
+}
