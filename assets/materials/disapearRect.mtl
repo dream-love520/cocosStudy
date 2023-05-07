@@ -1,0 +1,20 @@
+{
+  "__type__": "cc.Material",
+  "_name": "disapearRect",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "6cf6d92d-9dcf-46d3-a4d4-04d9968ad093"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "defines": {
+        "USE_TEXTURE": true
+      },
+      "props": {
+        "disapearValue": 0.3
+      }
+    }
+  }
+}

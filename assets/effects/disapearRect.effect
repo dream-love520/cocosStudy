@@ -13,8 +13,7 @@ CCEffect %{
       properties:
         texture: { value: white }
         alphaThreshold: { value: 0.5 }
-        u_dissolveMap: { value: white, editor: { tooltip: '噪声贴图' } }
-        dissolveThreshold: { value: 0.5, editor: { range:[0, 1, 0.01], slide: true, tooltip: '溶解阈值' } }
+        disapearValue: { value: 0.5, editor: { range:[0, 1, 0.01], slide: true, tooltip: '显示范围' } }
 }%
 
 
@@ -61,41 +60,29 @@ CCProgram fs %{
 
   in vec4 v_color;
 
-   uniform Dissolve{
-      float dissolveThreshold;// 熔岩阀值[0, 1];
+  uniform Dissolve{
+      float disapearValue;// 显示范围[0, 1];
    };
 
   #if USE_TEXTURE
   in vec2 v_uv0;
-  uniform sampler2D u_dissolveMap;// 熔岩形状的纹理;
   uniform sampler2D texture;
   #endif
 
   void main () {
     vec4 o = vec4(1, 1, 1, 1);
-    float value = 1.0;
 
     #if USE_TEXTURE
-        vec4 dissolveMap = texture(u_dissolveMap, v_uv0); // 如果颜色的 r 分量小于阀值，将这个着色操作丢弃;
-        value *= dissolveMap.r;
-        //CCTexture(texture, v_uv0, o);
-    #endif
-
-     if (value < dissolveThreshold) {
-      discard; // 将小于阈值的片段丢弃，形成溶解
-    }
-
-    #if USE_TEXTURE
-      o *= texture(texture, v_uv0); // 与原纹理混合;
+      CCTexture(texture, v_uv0, o);
     #endif
 
     o *= v_color;
 
-    ALPHA_TEST(o);
-
-    if (value < dissolveThreshold + 0.03) {
-      o = vec4(0.9, 0.6, 0.3, o.a); // 溶解的边缘设置一个边缘过度色
+    if (v_uv0.y < 1.0 - disapearValue) {
+      o.a = 0.0; // 如果大于这个值   那么不显示 
     }
+
+    ALPHA_TEST(o);
 
     #if USE_BGRA
       gl_FragColor = o.bgra;
